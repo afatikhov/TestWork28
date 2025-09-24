@@ -1,0 +1,55 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+*.log
+
+# --- Virtualenv / venv ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Build / dist ---
+build/
+dist/
+*.manifest
+*.spec
+*.lock
+
+# --- Testing ---
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+
+# --- Jupyter / IPython ---
+.ipynb_checkpoints
+*.ipynb
+
+# --- Editors / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# --- OS-specific ---
+.DS_Store
+Thumbs.db
+
+# --- dotenv / secrets ---
+.env
+.env.*
+*.secret
+
+# --- database ---
+pg_data/
+mongo_data/
+redis_data/
