@@ -1,0 +1,71 @@
+services:
+#  test:
+#    build: ./
+#    container_name: test_work
+#    ports:
+#      - "8035:8035"
+#    env_file:
+#      - ./.env
+#    environment:
+#      - PYTHONPATH=/app/src
+#    depends_on:
+#      - db
+#      - mongo
+#      - redis
+#    volumes:
+#      - .:/app
+#    command: >
+#      sh -c "alembic -c src/alembic.ini upgrade head & python3 ./src/main.py"
+#    networks:
+#      - test_network
+  db:
+    image: postgres:17
+    container_name: test_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - test_network
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
+    networks:
+      - test_network
+
+  mongo:
+    image: mongo:7
+    container_name: test_mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - ./mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - test_network
+
+networks:
+  test_network:
+    driver: bridge
+
+volumes:
+  database:
+  redis_data:
+  mongo_data:
