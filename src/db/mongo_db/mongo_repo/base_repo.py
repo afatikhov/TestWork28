@@ -1,6 +1,6 @@
 from typing import Any, Optional
 from pymongo.asynchronous.collection import AsyncCollection
-from pymongo.results import InsertOneResult, DeleteResult
+from pymongo.results import InsertOneResult, DeleteResult, InsertManyResult
 
 from src.db.irepo import AbstractRepo
 
@@ -23,6 +23,10 @@ class BaseMgRepo(AbstractRepo):
 
     async def add(self, doc: dict[str, Any]) -> InsertOneResult:
         result: InsertOneResult = await self.collection.insert_one(doc)
+        return result
+
+    async def add_many(self, docs: list[dict[str, Any]]) -> InsertManyResult:
+        result: InsertManyResult = await self.collection.insert_many(docs)
         return result
 
     async def delete(self, doc: dict[str, Any]) -> DeleteResult:

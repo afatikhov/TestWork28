@@ -16,5 +16,5 @@ async def init_db():
             ("text", 1),
             ("tags", 1)
         ],
-        unique=False
+        unique=True
     )
