@@ -2,7 +2,7 @@ from typing import Any, Optional
 from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.results import InsertOneResult, DeleteResult, InsertManyResult
 
-from src.db.irepo import AbstractRepo
+from src.infrastructure.db.irepo import AbstractRepo
 
 
 class BaseMgRepo(AbstractRepo):

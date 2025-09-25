@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 
-from src.db.mongo_db.mongo_connection import init_db
+from src.infrastructure.db.mongo_db.mongo_connection import init_db
 
 app = FastAPI()
 

@@ -1,12 +1,12 @@
-from typing import Any, Coroutine, Optional
+from typing import Optional
 
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
 from pymongo.results import InsertManyResult
 
-from src.db.mongo_db.mongo_connection import QuotesData
-from src.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
+from src.infrastructure.db.mongo_db.mongo_connection import QuotesData
+from src.infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
 from src.exceptions.custom_exceptions import NoDataInsertedException, PageLoadException
 
 
