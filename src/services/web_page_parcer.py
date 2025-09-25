@@ -1,22 +1,44 @@
+from typing import Any, Coroutine, Optional
+
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
+from pymongo.results import InsertManyResult
+
+from src.db.mongo_db.mongo_connection import QuotesData
+from src.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
+from src.exceptions.custom_exceptions import NoDataInsertedException, PageLoadException
 
 
 class WebPageParser:
-    def __init__(self):
-        pass
+    def __init__(self, quotes_data_repo: QuotesDataRepo):
+        self.quotes_data_repo: QuotesDataRepo = quotes_data_repo
 
-    async def parce_and_store(self, page_url: str) -> None:
-        page_html: str = await self.get_page_html(page_url)
-        print(page_html)
-        parsed_data: list[dict[str, object]] = self.parce_quotes(page_html)
-        print(parsed_data)
+    async def parce_and_store(self, page_url: str) -> Optional[InsertManyResult]:
+        try:
+            page_html: str = await self.get_page_html(page_url)
+            print(page_html)
+            parsed_data: list[dict[str, object]] = self.parce_quotes(page_html)
+            print(parsed_data)
+            result: InsertManyResult = await self.write_parsed_data(parsed_data=parsed_data)
+            return result
+        except Exception as e:
+            print(e)
+
+    async def write_parsed_data(self, parsed_data: list[dict[str, object]]):
+        result: InsertManyResult = await self.quotes_data_repo.add_many(parsed_data)
+
+        if not result:
+            raise NoDataInsertedException(message="No data was inserted!")
+
+        return result
 
     async def get_page_html(self, page_url: str) -> str:
         async with aiohttp.ClientSession() as session:
             async with session.get(page_url) as response:
                 page_html: str = await response.text()
+                if not page_html:
+                    raise PageLoadException(url=page_url)
                 return page_html
 
     def parce_quotes(self, page_html: str) -> list[dict[str, object]]:
@@ -33,12 +55,15 @@ class WebPageParser:
                 "author": author,
                 "tags": tags
             })
+        if not quotes_list:
+            raise NoDataInsertedException(message="No data to insert!")
 
         return quotes_list
 
 async def main() -> None:
-    parser = WebPageParser()
-    html_content: str = await parser.parce_and_store(page_url="https://quotes.toscrape.com")
+    quotes_data_repo: QuotesDataRepo = QuotesDataRepo(collection=QuotesData)
+    parser = WebPageParser(quotes_data_repo=quotes_data_repo)
+    html_content: InsertManyResult = await parser.parce_and_store(page_url="https://quotes.toscrape.com")
     print(html_content)
 
 if __name__ == "__main__":
