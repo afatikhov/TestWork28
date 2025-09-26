@@ -13,8 +13,7 @@ services:
       - redis
     volumes:
       - .:/app
-    command: >
-      sh -c "alembic -c src/alembic.ini upgrade head & python3 ./src/main.py"
+      - ./logs:/app/logs
     networks:
       - test_network
   redis:

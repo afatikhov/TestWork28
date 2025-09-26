@@ -10,3 +10,5 @@ COPY . /app/
 ENV PYTHONPATH=/app/src
 
 EXPOSE 8035
+
+CMD ["python3", "./main.py"]
