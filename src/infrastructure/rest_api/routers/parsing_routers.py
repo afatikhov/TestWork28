@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Body, Depends
 
 from exceptions.custom_http_exceptions import http_exception_handler
-from src.schemas import ParseQuotesRequest, ParseQuotesResponse
-from src.services.celery_worker import parse_and_store_task
+from schemas import ParseQuotesRequest, ParseQuotesResponse
+from services.celery_worker import parse_and_store_task
 import nest_asyncio
 
 

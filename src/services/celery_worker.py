@@ -1,10 +1,10 @@
 from typing import Optional, Callable, Any
 from celery import Celery
-from src.config import settings
-from src.infrastructure.db.mongo_db.mongo_connection import QuotesData
-from src.infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
-from src.logger import logger
-from src.services.web_page_parcer import WebPageParser
+from config import settings
+from infrastructure.db.mongo_db.mongo_connection import QuotesData
+from infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
+from logger import logger
+from services.web_page_parcer import WebPageParser
 
 
 celery_worker = Celery(

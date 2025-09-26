@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 from kombu.asynchronous.http import Response
 from pydantic import HttpUrl
 from pymongo.results import InsertManyResult
-from src.infrastructure.db.mongo_db.mongo_connection import QuotesData
-from src.infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
-from src.exceptions.custom_exceptions import NoDataInsertedException, PageLoadException
-from src.logger import logger
+from infrastructure.db.mongo_db.mongo_connection import QuotesData
+from infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
+from exceptions.custom_exceptions import NoDataInsertedException, PageLoadException
+from logger import logger
 import requests
 
 

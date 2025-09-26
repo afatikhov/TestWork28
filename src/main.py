@@ -5,8 +5,8 @@ from fastapi import FastAPI
 import uvicorn
 
 from infrastructure.rest_api.routers.quotes_routers import quotes_router
-from src.infrastructure.db.mongo_db.mongo_connection import init_db
-from src.infrastructure.rest_api.routers.parsing_routers import parsing_router
+from infrastructure.db.mongo_db.mongo_connection import init_db
+from infrastructure.rest_api.routers.parsing_routers import parsing_router
 
 app = FastAPI()
 
@@ -21,7 +21,7 @@ def start_uvicorn():
 def start_celery_worker():
     subprocess.run([
         "celery",
-        "-A", "src.services.celery_worker.celery_worker",
+        "-A", "services.celery_worker.celery_worker",
         "worker",
         "--loglevel=info"
     ])

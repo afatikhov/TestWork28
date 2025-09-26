@@ -4,7 +4,7 @@ from pymongo.results import InsertOneResult, DeleteResult, InsertManyResult
 from pymongo.collection import Collection
 
 from logger import logger
-from src.infrastructure.db.irepo import AbstractRepo
+from infrastructure.db.irepo import AbstractRepo
 
 
 class BaseMgRepo(AbstractRepo):

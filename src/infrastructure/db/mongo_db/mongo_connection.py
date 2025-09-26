@@ -1,7 +1,7 @@
 from pymongo import ASCENDING, MongoClient
 from pymongo.database import Database
 from pymongo.collection import Collection
-from src.config import settings
+from config import settings
 
 client: MongoClient = MongoClient(settings.get_url_mg)
 

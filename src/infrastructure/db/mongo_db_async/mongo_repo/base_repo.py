@@ -10,7 +10,7 @@ from pymongo.synchronous.cursor import Cursor
 
 from exceptions.custom_http_exceptions import QuoteDataNotFound
 from logger import logger
-from src.infrastructure.db.irepo import AbstractRepo
+from infrastructure.db.irepo import AbstractRepo
 
 
 class AsyncBaseMgRepo(AbstractRepo):

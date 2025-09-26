@@ -1,7 +1,7 @@
 from pymongo import ASCENDING, AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.database import Database
-from src.config import settings
+from config import settings
 
 client_async: AsyncMongoClient = AsyncMongoClient(settings.get_url_mg)
 
