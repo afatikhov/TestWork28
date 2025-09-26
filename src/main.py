@@ -4,12 +4,14 @@ from multiprocessing import Process
 from fastapi import FastAPI
 import uvicorn
 
+from infrastructure.rest_api.routers.quotes_routers import quotes_router
 from src.infrastructure.db.mongo_db.mongo_connection import init_db
 from src.infrastructure.rest_api.routers.parsing_routers import parsing_router
 
 app = FastAPI()
 
 app.include_router(parsing_router)
+app.include_router(quotes_router)
 
 init_db()
 

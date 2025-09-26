@@ -7,9 +7,10 @@ class ICustomHttpException(BaseException):
     def to_http_exception(self) -> HTTPException:
         raise NotImplemented("Subclasses must implement this method!")
 
-class QuoteDataNotFound(BaseException):
+class QuoteDataNotFound(ICustomHttpException):
     def __init__(self, message: str):
         super().__init__(message)
+        self.message: str = message
 
     def to_http_exception(self) -> HTTPException:
         return HTTPException(status_code=404, detail=f"Quote not found: {self.message}")
