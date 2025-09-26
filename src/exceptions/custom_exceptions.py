@@ -6,3 +6,7 @@ class PageLoadException(BaseException):
     def __init__(self, url: str):
         message: str = f"Error in loading page: {url}"
         super().__init__(message)
+
+class MongoDataManipulationError(BaseException):
+    def __init__(self, message: str):
+        super().__init__(message)
