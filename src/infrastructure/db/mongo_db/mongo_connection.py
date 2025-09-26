@@ -14,7 +14,8 @@ def init_db():
         [
             ("author", 1),
             ("text", 1),
-            ("tags", 1)
+            ("tags", 1),
+            ("created_at", 1)
         ],
         unique=True
     )

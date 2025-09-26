@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Optional
 from pymongo.results import InsertOneResult, DeleteResult, InsertManyResult
 from pymongo.collection import Collection
@@ -10,9 +11,9 @@ class BaseMgRepo(AbstractRepo):
     def __init__(self, collection: Collection):
         self.collection: Collection = collection
 
-    def get(self, filter_fields_and_values: dict[str, Any]) -> Optional[dict[str, Any]]:
+    def get(self, filter_fields_and_values: dict[str, Any]) -> Optional[list[dict[str, Any]]]:
         try:
-            result: Optional[dict[str, Any]] = self.collection.find_one(
+            result: Optional[list[dict[str, Any]]] = self.collection.find(
                 filter_fields_and_values
             )
             return result
@@ -30,7 +31,8 @@ class BaseMgRepo(AbstractRepo):
 
     def add(self, doc: dict[str, Any]) -> InsertOneResult:
         try:
-            result: InsertOneResult = self.collection.insert_one(doc)
+            doc_with_created_at: dict[str, Any] = self._add_created_add(doc)
+            result: InsertOneResult = self.collection.insert_one(doc_with_created_at)
             logger.info(f"Added new data to mongo db: {result}")
             return result
         except Exception as e:
@@ -38,11 +40,21 @@ class BaseMgRepo(AbstractRepo):
 
     def add_many(self, docs: list[dict[str, Any]]) -> InsertManyResult:
         try:
-            result: InsertManyResult = self.collection.insert_many(docs)
+            docs_with_created_at: dict[str, Any] = self._add_created_add(docs)
+            result: InsertManyResult = self.collection.insert_many(docs_with_created_at)
             logger.info(f"Added new data to mongo db: {result}")
             return result
         except Exception as e:
             logger.error("Error while adding many data to mongo db", exc_info=True)
+
+    def _add_created_add(self, doc_or_docs: list | dict) -> list | dict:
+        now: datetime = datetime.utcnow()
+        if isinstance(doc_or_docs, dict):
+            doc_or_docs["created_at"] = now
+        if isinstance(doc_or_docs, list):
+            for doc in doc_or_docs:
+                doc["created_at"] = now
+        return doc_or_docs
 
     def delete(self, doc: dict[str, Any]) -> DeleteResult:
         try:

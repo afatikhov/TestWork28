@@ -1,5 +1,5 @@
-from src.infrastructure.db.mongo_db.mongo_repo.base_repo import BaseMgRepo
+from infrastructure.db.mongo_db_async.mongo_repo.base_repo import AsyncBaseMgRepo
 
 
-class QuotesDataRepo(BaseMgRepo):
+class AsyncQuotesDataRepo(AsyncBaseMgRepo):
     pass
