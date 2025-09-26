@@ -18,7 +18,6 @@ class WebPageParser:
 
     def parce_and_store(self, page_url: HttpUrl) -> Optional[InsertManyResult]:
         try:
-            logger.info(f"Начинаем парсинг страницы: {page_url}")
             page_html: str = self.get_page_html(page_url)
             print(page_html)
             parsed_data: list[dict[str, object]] = self.parce_quotes(page_html)
@@ -26,7 +25,8 @@ class WebPageParser:
             result: InsertManyResult = self.write_parsed_data(parsed_data=parsed_data)
             return result
         except Exception as e:
-            print(e)
+            logger.error(f"Error while parsing: {e}", exc_info=True)
+            return None
 
     def write_parsed_data(self, parsed_data: list[dict[str, object]]):
         result: InsertManyResult = self.quotes_data_repo.add_many(parsed_data)

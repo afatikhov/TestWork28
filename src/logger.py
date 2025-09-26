@@ -11,6 +11,6 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-file_handler = logging.FileHandler("quotes_parser.log")
+file_handler = logging.FileHandler("../logs/quotes_parser.log")
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
