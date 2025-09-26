@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 
 from src.infrastructure.rest_api.depends.parsing_depends import get_web_page_parser
 from src.schemas import ParseQuotesRequest, ParseQuotesResponse
-from src.services.web_page_parcer import WebPageParser, parse_and_store_task
+from src.services.celery_worker import parse_and_store_task
 import nest_asyncio
 
 

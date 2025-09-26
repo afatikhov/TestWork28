@@ -8,7 +8,7 @@ from pymongo.results import InsertManyResult
 from src.infrastructure.db.mongo_db.mongo_connection import QuotesData
 from src.infrastructure.db.mongo_db.mongo_repo.quotes_data_repo import QuotesDataRepo
 from src.exceptions.custom_exceptions import NoDataInsertedException, PageLoadException
-from src.services.celery_worker import celery_worker
+from src.logger import logger
 import requests
 
 
@@ -18,6 +18,7 @@ class WebPageParser:
 
     def parce_and_store(self, page_url: HttpUrl) -> Optional[InsertManyResult]:
         try:
+            logger.info(f"Начинаем парсинг страницы: {page_url}")
             page_html: str = self.get_page_html(page_url)
             print(page_html)
             parsed_data: list[dict[str, object]] = self.parce_quotes(page_html)
@@ -66,13 +67,6 @@ class WebPageParser:
             raise NoDataInsertedException(message="No data to insert!")
 
         return quotes_list
-
-
-@celery_worker.task
-def parse_and_store_task(page_url: str):
-    quotes_data_repo = QuotesDataRepo(collection=QuotesData)
-    parser = WebPageParser(quotes_data_repo=quotes_data_repo)
-    parser.parce_and_store(page_url=page_url)
 
 async def main() -> None:
     quotes_data_repo: QuotesDataRepo = QuotesDataRepo(collection=QuotesData)
